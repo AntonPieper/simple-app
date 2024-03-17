@@ -74,8 +74,8 @@ fastify.get(
     }
     if (counterID >= clients.length) {
       clients.length = counterID + 1;
-      clients[counterID] = [];
     }
+    clients[counterID] ??= [];
     const client: Client = {
       index: clients[counterID].length,
       stream: reply.raw,
