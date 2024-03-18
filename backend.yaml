@@ -13,10 +13,30 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: antonpieper/simple-app-server
-        ports:
-        - containerPort: 8080
+        - name: backend
+          image: ghcr.io/antonpieper/simple-app-server:main
+          env:
+            - name: PGHOST
+              value: postgres
+            - name: PGUSER
+              value: myuser
+            - name: PGDATABASE
+              value: mydatabase
+            - name: PGPASSWORD
+              value: mypassword
+            - name: HOST
+              value: "0.0.0.0"
+            - name: PORT
+              value: "8080"
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
+            requests:
+              cpu: "0.1"
+              memory: "256Mi"
 
 ---
 apiVersion: v1
@@ -30,4 +50,3 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-

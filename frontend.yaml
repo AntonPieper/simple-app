@@ -13,10 +13,17 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: antonpieper/simple-app-client
-        ports:
-        - containerPort: 80
+        - name: frontend
+          image: ghcr.io/antonpieper/simple-app-client:main
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
+            requests:
+              cpu: "0.1"
+              memory: "128Mi"
 
 ---
 apiVersion: v1
@@ -30,4 +37,3 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-
