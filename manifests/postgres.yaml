@@ -9,11 +9,11 @@ spec:
     size: 1Gi
   numberOfInstances: 2
   users:
-    simple-app-user:
+    simple_app_user:
       - superuser
       - createdb
   databases:
-    simple_app: simple-app-user
+    simple_app: simple_app_user
   postgresql:
     version: "16"
   resources:

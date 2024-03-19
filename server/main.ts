@@ -39,10 +39,22 @@ const fastify = Fastify({
 
 fastify.register(FastifyHelmet);
 
+function sslMode() {
+  switch (process.env.PGSSLMODE) {
+    case "allow":
+    case "prefer":
+    case "require":
+    case "verify-full":
+      return process.env.PGSSLMODE;
+    default:
+      return undefined;
+  }
+}
 const sql = postgres({
   debug(connection, query, parameters, paramTypes) {
     fastify.log.debug({ connection, query, parameters, paramTypes });
   },
+  ssl: sslMode(),
 });
 fastify.addHook("onClose", async () => {
   return sql.end();
@@ -96,7 +108,7 @@ fastify.get(
     });
     fastify.log.debug(`[Initial] Sending ${answer[0].count}...`);
     client.stream.write(`data: ${answer[0].count}\n\n`);
-  },
+  }
 );
 
 fastify.post("/:id/add", { schema: { params: IdParamSchema } }, async (req) => {
