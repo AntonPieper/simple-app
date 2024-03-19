@@ -19,7 +19,10 @@ spec:
             - name: PGHOST
               value: simple-app-db
             - name: PGUSER
-              value: simple-app-user
+              valueFrom:
+                secretKeyRef:
+                  name: simple-app-user.simple-app-db.credentials.postgresql.acid.zalan.do
+                  key: username
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
