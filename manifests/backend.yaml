@@ -17,13 +17,19 @@ spec:
           image: ghcr.io/antonpieper/simple-app-server:main
           env:
             - name: PGHOST
-              value: postgres
+              value: simple-app-db
             - name: PGUSER
-              value: myuser
-            - name: PGDATABASE
-              value: mydatabase
+              valueFrom:
+                secretKeyRef:
+                  name: simple-app-user.simple-app-db.credentials.postgresql.acid.zalan.do
+                  key: username
             - name: PGPASSWORD
-              value: mypassword
+              valueFrom:
+                secretKeyRef:
+                  name: simple-app-user.simple-app-db.credentials.postgresql.acid.zalan.do
+                  key: password
+            - name: PGDATABASE
+              value: simple_app
             - name: HOST
               value: "0.0.0.0"
             - name: PORT

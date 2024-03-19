@@ -1,0 +1,25 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: simple-app-db
+  namespace: default
+spec:
+  teamId: "myteam"
+  volume:
+    size: 1Gi
+  numberOfInstances: 2
+  users:
+    simple-app-user:
+      - superuser
+      - createdb
+  databases:
+    simple_app: simple-app-user
+  postgresql:
+    version: "16"
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+    limits:
+      cpu: 300m
+      memory: 300Mi
