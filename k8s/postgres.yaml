@@ -1,8 +1,8 @@
 apiVersion: "acid.zalan.do/v1"
 kind: postgresql
 metadata:
+  namespace: yaml-yodelers
   name: simple-app-db
-  namespace: default
 spec:
   teamId: "myteam"
   volume:

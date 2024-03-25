@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: yaml-yodelers
   labels:
     pod-security.kubernetes.io/enforce: baseline
     pod-security.kubernetes.io/enforce-version: v1.24
@@ -12,6 +13,7 @@ spec:
       app: frontend
   template:
     metadata:
+      namespace: yaml-yodelers
       labels:
         app: frontend
     spec:
@@ -32,6 +34,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: yaml-yodelers
   name: frontend-service
 spec:
   selector:
@@ -45,6 +48,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  namespace: yaml-yodelers
   name: frontend-ingress-policy
 spec:
   ingress:
@@ -65,6 +69,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  namespace: yaml-yodelers
   name: frontend-ingress
 spec:
   rules:
@@ -83,6 +88,7 @@ spec:
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
+  namespace: yaml-yodelers
   name: frontend-pdb
 spec:
   minAvailable: 1

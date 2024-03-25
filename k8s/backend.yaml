@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: yaml-yodelers
   labels:
     pod-security.kubernetes.io/enforce: baseline
     pod-security.kubernetes.io/enforce-version: v1.24
@@ -12,6 +13,7 @@ spec:
       app: backend
   template:
     metadata:
+      namespace: yaml-yodelers
       labels:
         app: backend
     spec:
@@ -63,6 +65,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: yaml-yodelers
   name: backend-service
 spec:
   selector:
@@ -76,6 +79,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  namespace: yaml-yodelers
   name: backend-ingress-policy
 spec:
   ingress:
@@ -95,6 +99,7 @@ spec:
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
+  namespace: yaml-yodelers
   name: backend-pdb
 spec:
   minAvailable: 1
