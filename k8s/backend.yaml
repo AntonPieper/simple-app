@@ -1,6 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/enforce-version: v1.24
   name: backend-deployment
 spec:
   replicas: 2
@@ -12,6 +15,16 @@ spec:
       labels:
         app: backend
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - backend
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: backend
           image: ghcr.io/antonpieper/simple-app-server:main
@@ -58,3 +71,33 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-ingress-policy
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: frontend
+      ports:
+        - port: 8080
+  podSelector:
+    matchLabels:
+      app: backend
+  policyTypes:
+    - Ingress
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: backend-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: backend
