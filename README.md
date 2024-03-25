@@ -15,7 +15,7 @@ helm repo add postgres-operator-charts https://opensource.zalando.com/postgres-o
 ### Install the postgres-operator
 
 ```sh
-helm install postgres-operator postgres-operator-charts/postgres-operator -f postgres-operator-values.yaml -n yaml-yodelers
+helm install postgres-operator postgres-operator-charts/postgres-operator -f postgres-operator-values.yaml -n yaml-yodelers --create-namespace
 ```
 
 ## Deploy the application
