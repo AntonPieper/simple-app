@@ -18,12 +18,24 @@ helm repo add postgres-operator-charts https://opensource.zalando.com/postgres-o
 helm install postgres-operator postgres-operator-charts/postgres-operator -f postgres-operator-values.yaml -n yaml-yodelers --create-namespace
 ```
 
+### Deploy the [Prometheus Operator](https://github.com/prometheus-operator/prometheus-operator?tab=readme-ov-file#quickstart)
+
+```sh
+kubectl create -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/bundle.yaml -n yaml-yodelers
+```
+
 ## Deploy the application
 
-### Apply all the kubernetes resources
+### Apply all the kubernetes resources necessary for the application
 
 ```sh
 kubectl apply -f k8s/ -n yaml-yodelers
+```
+
+### Apply all the kubernetes resources necessary for monitoring using Prometheus (WIP)
+
+```sh
+kubectl apply -f k8s/monitoring/ -n yaml-yodelers
 ```
 
 ### Create the database
@@ -52,3 +64,15 @@ The frontend service is exposed on port 80. You can access the application using
     ```sh
     minikube service -n frontend-service
     ```
+
+### Access Prometheus
+1.  TODO
+
+
+## TODO
+1. Verify if Prometheus works
+2. Add PDB, routing and security policies etc. to all remaining manifests
+3. Minimize the amount of "kubectl apply"'s necessary for deployment
+4. Fix whatever else does not work  
+
+
