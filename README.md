@@ -45,7 +45,7 @@ kubectl apply -f k8s/monitoring/ -n yaml-yodelers
 kubectl wait --for=condition=Ready pod -n yaml-yodelers -l cluster-name=simple-app-db
 
 # create the database
-export PGMASTER=$(kubectl get pods -n yaml-yodelers -o jsonpath={.items..metadata.name} -l application=spilo,cluster-name=simple-app-db,spilo-role=master -n yaml-yodelers)
+export PGMASTER=$(kubectl get pods -n yaml-yodelers -o jsonpath={.items..metadata.name} -l application=spilo,cluster-name=simple-app-db -n yaml-yodelers)
 kubectl exec -n yaml-yodelers $PGMASTER -- psql -U simple_app_user -d simple_app -c "$(cat setup-db.sql)"
 ```
 
