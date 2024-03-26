@@ -65,6 +65,9 @@ The frontend service is exposed on port 80. You can access the application using
     minikube service -n frontend-service
     ```
 
+### Access the Prometheus Web UI
+should be available on port 9090 (TODO)
+
 ## Note about Prometheus metrics and alarms
 
 Prometheus metrics are collected for the frontend and backend service as of now.
