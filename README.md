@@ -41,10 +41,11 @@ kubectl apply -f k8s/monitoring/ -n yaml-yodelers
 ### Create the database
 
 ```sh
-# wait for the database to be ready                                                                                                               󱃾 minikube
+# wait for the database to be ready
 kubectl wait --for=condition=Ready pod -n yaml-yodelers -l cluster-name=simple-app-db
 
 # create the database
+# note: removed spilo-role=master from filter, did not get any matches otherwise
 export PGMASTER=$(kubectl get pods -n yaml-yodelers -o jsonpath={.items..metadata.name} -l application=spilo,cluster-name=simple-app-db -n yaml-yodelers)
 kubectl exec -n yaml-yodelers $PGMASTER -- psql -U simple_app_user -d simple_app -c "$(cat setup-db.sql)"
 ```
@@ -65,14 +66,18 @@ The frontend service is exposed on port 80. You can access the application using
     minikube service -n frontend-service
     ```
 
-### Access Prometheus
-1.  TODO
+### Access Prometheus metrics
 
+Prometheus metrics are collected for the frontend and backend service as of now.
 
 ## TODO
-1. Verify if Prometheus works
+1. Verify that Prometheus works, perhaps add monitors for remaining services (eg. postgres)
 2. Add PDB, routing and security policies etc. to all remaining manifests
 3. Minimize the amount of "kubectl apply"'s necessary for deployment
-4. Fix whatever else does not work  
+4. Fix whatever else that does not work  
 
+## Other notes
+1. Using the Prometheus Operator "Quick Start" bundle.yaml is not deploying a full Prometheus stack, but should be enough for basic monitoring
+2. The bundle.yaml is supposed to be deployed to the default namespace, might need forked version to point all the RBAC services to our namespace (see quick start guide @prometheus operators git)
+3. expierincing PVC issues with the simple-app-db on local minikube deployment, need to take a closer look.
 
