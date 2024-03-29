@@ -1,17 +1,17 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: frontend-alerts
+  name: backend-cpu-alert
   namespace: yaml-yodelers
 spec:
   groups:
-  - name: frontend.rules
+  - name: backend-cpu-alerts
     rules:
-    - alert: HighAccessRate
-      expr: rate(http_requests_total{job="frontend"}[1m]) > 10
+    - alert: HighCpuUsage
+      expr: 100 - (avg(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
       for: 1m
       labels:
         severity: warning
       annotations:
-        summary: High access rate on frontend service
-        description: Frontend service is experiencing a high access rate, with more than 10 accesses per minute.
+        summary: "High CPU usage on backend service"
+        description: "CPU usage on backend service {{ $labels.instance }} is above 90% for the last 5 minutes."
