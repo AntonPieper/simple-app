@@ -70,9 +70,9 @@ should be available on port 9090 (TODO)
 
 ## Note about Prometheus metrics and alarms
 
-Prometheus metrics are collected for the frontend and backend service as of now.
+Prometheus default metrics are collected for the backend. (via /metrics)
+One alarm is configured to monitor for high CPU usage on the backend.
 
-One alarm is configured to monitor 'frequent' access to the frontend, triggering an alarm if there are more than 10 accesses per minute."
 
 ## TODO
 1. Verify that Prometheus works, ~perhaps add monitors for remaining services (eg. postgres)~ (more monitors not necessary)
