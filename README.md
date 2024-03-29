@@ -84,4 +84,5 @@ One alarm is configured to monitor for high CPU usage on the backend.
 1. Using the Prometheus Operator "Quick Start" bundle.yaml is not deploying a full Prometheus stack, but should be enough for basic monitoring
 2. ~The bundle.yaml is supposed to be deployed to the default namespace, might need forked version to point all the RBAC services to our namespace (see quick start guide @prometheus operators git)~ 
     - Forked and modified bundle.yaml is now included
+3. fixed the nginx deployment issuse as described [here](fix using https://stackoverflow.com/questions/61365202/nginx-ingress-service-ingress-nginx-controller-admission-not-found)
 
