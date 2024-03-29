@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,10 +26,10 @@ spec:
           resources:
             limits:
               cpu: "0.5"
-              memory: "512Mi"
+              memory: 512Mi
             requests:
               cpu: "0.1"
-              memory: "128Mi"
+              memory: 128Mi
 
 ---
 apiVersion: v1
@@ -73,17 +74,16 @@ metadata:
   name: frontend-ingress
 spec:
   rules:
-    - host: example.com #TODO replace with proper TLD
+    - host: example.com
       http:
         paths:
-          - backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: frontend-service
                 port:
                   number: 80
-            path: /
-            pathType: Prefix
-
 ---
 apiVersion: policy/v1
 kind: PodDisruptionBudget
