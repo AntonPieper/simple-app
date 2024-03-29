@@ -1,20 +1,6 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: frontend-service-monitor
-  namespace: yaml-yodelers
-spec:
-  selector:
-    matchLabels:
-      app: frontend
-  endpoints:
-  - port: "80"
-    path: /metrics
-    interval: 30s
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
   name: backend-service-monitor
   namespace: yaml-yodelers
 spec:
