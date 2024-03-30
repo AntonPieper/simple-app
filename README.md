@@ -53,7 +53,7 @@ kubectl create -f prometheus-bundle.yaml -n yaml-yodelers
 kubectl apply -f k8s/ -n yaml-yodelers
 ```
 
-### Create the database
+### Create and populate the database
 
 ```sh
 # wait for the database to be ready
