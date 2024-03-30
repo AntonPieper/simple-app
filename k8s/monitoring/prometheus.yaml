@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: my-prometheus
+  namespace: yaml-yodelers
+    labels:
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/enforce-version: v1.24
+spec:
+  serviceAccountName: prometheus-k8s
+  serviceMonitorSelector:
+    matchLabels:
+      release: prometheus-operator
+  resources:
+    requests:
+      memory: "400Mi"
+  alerting:
+    alertmanagers:
+    - name: alertmanager-main
+      namespace: yaml-yodelers
+      port: web
