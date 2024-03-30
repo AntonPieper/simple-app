@@ -3,6 +3,9 @@ kind: PrometheusRule
 metadata:
   name: backend-cpu-alert
   namespace: yaml-yodelers
+    labels:
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/enforce-version: v1.24
 spec:
   groups:
   - name: backend-cpu-alerts
