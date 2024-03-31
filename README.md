@@ -89,22 +89,22 @@ One alarm is configured to monitor for high CPU usage on the backend.
 ```mermaid
 graph TD
     subgraph "Kubernetes Cluster"
-    backendDeployment[("Deployment\nbackend-deployment")]
-    frontendDeployment[("Deployment\nfrontend-deployment")]
-    postgresql[("PostgreSQL\nsimple-app-db")]
-    backendService[("Service\nbackend-service")]
-    frontendService[("Service\nfrontend-service")]
-    backendNetworkPolicy[("NetworkPolicy\nbackend-ingress-policy")]
-    frontendNetworkPolicy[("NetworkPolicy\nfrontend-ingress-policy")]
-    networkPolicy[("NetworkPolicy\nfrontend-network-policy")]
-    backendPDB[("PodDisruptionBudget\nbackend-pdb")]
-    frontendPDB[("PodDisruptionBudget\nfrontend-pdb")]
-    ingress[("Ingress\nfrontend-ingress")]
-    configMap[("ConfigMap\ndb-init-script")]
-    job[("Job\ndb-init-job")]
-    prometheus[("Prometheus\nmy-prometheus")]
-    serviceMonitor[("ServiceMonitor\nbackend-service-monitor")]
-    alertRule[("PrometheusRule\nbackend-cpu-alert")]
+    backendDeployment[("Deployment<br/>backend-deployment")]
+    frontendDeployment[("Deployment<br/>frontend-deployment")]
+    postgresql[("PostgreSQL<br/>simple-app-db")]
+    backendService[("Service<br/>backend-service")]
+    frontendService[("Service<br/>frontend-service")]
+    backendNetworkPolicy[("NetworkPolicy<br/>backend-ingress-policy")]
+    frontendNetworkPolicy[("NetworkPolicy<br/>frontend-ingress-policy")]
+    networkPolicy[("NetworkPolicy<br/>frontend-network-policy")]
+    backendPDB[("PodDisruptionBudget<br/>backend-pdb")]
+    frontendPDB[("PodDisruptionBudget<br/>frontend-pdb")]
+    ingress[("Ingress<br/>frontend-ingress")]
+    configMap[("ConfigMap<br/>db-init-script")]
+    job[("Job<br/>db-init-job")]
+    prometheus[("Prometheus<br/>my-prometheus")]
+    serviceMonitor[("ServiceMonitor<br/>backend-service-monitor")]
+    alertRule[("PrometheusRule<br/>backend-cpu-alert")]
 
     backendDeployment -->|exposes| backendService
     frontendDeployment -->|exposes| frontendService
