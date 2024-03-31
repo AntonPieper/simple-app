@@ -17,6 +17,8 @@ spec:
       namespace: yaml-yodelers
       labels:
         app: frontend
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
     spec:
       containers:
         - name: frontend
