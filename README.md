@@ -85,7 +85,42 @@ Prometheus default metrics are collected for the backend. (via /metrics)
 One alarm is configured to monitor for high CPU usage on the backend.
 
 ## Diagram (overview) of the architecture
-<TODO>
+
+```mermaid
+graph TD
+    subgraph "Kubernetes Cluster"
+    backendDeployment[("Deployment\nbackend-deployment")]
+    frontendDeployment[("Deployment\nfrontend-deployment")]
+    postgresql[("PostgreSQL\nsimple-app-db")]
+    backendService[("Service\nbackend-service")]
+    frontendService[("Service\nfrontend-service")]
+    backendNetworkPolicy[("NetworkPolicy\nbackend-ingress-policy")]
+    frontendNetworkPolicy[("NetworkPolicy\nfrontend-ingress-policy")]
+    networkPolicy[("NetworkPolicy\nfrontend-network-policy")]
+    backendPDB[("PodDisruptionBudget\nbackend-pdb")]
+    frontendPDB[("PodDisruptionBudget\nfrontend-pdb")]
+    ingress[("Ingress\nfrontend-ingress")]
+    configMap[("ConfigMap\ndb-init-script")]
+    job[("Job\ndb-init-job")]
+    prometheus[("Prometheus\nmy-prometheus")]
+    serviceMonitor[("ServiceMonitor\nbackend-service-monitor")]
+    alertRule[("PrometheusRule\nbackend-cpu-alert")]
+
+    backendDeployment -->|exposes| backendService
+    frontendDeployment -->|exposes| frontendService
+    backendService -->|ingress from| backendNetworkPolicy
+    frontendService -->|ingress from| frontendNetworkPolicy
+    backendDeployment -->|uses| postgresql
+    backendDeployment -->|managed by| backendPDB
+    frontendDeployment -->|managed by| frontendPDB
+    frontendService -->|accessible via| ingress
+    postgresql -->|initialized by| job
+    job -->|uses| configMap
+    prometheus -->|monitors| serviceMonitor
+    prometheus -->|alerts| alertRule
+    serviceMonitor -->|targets| backendService
+    end
+```
 
 ## High Availibity considerations
 - Each pod has a minimum of one running instance
@@ -110,3 +145,4 @@ One alarm is configured to monitor for high CPU usage on the backend.
 3. fixed the nginx deployment issue as described [here](https://stackoverflow.com/questions/61365202/nginx-ingress-service-ingress-nginx-controller-admission-not-found)
 
 
+## Architecture
