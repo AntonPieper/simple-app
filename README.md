@@ -26,16 +26,10 @@ helm repo add postgres-operator-charts https://opensource.zalando.com/postgres-o
 helm install postgres-operator postgres-operator-charts/postgres-operator -f postgres-operator-values.yaml -n yaml-yodelers --create-namespace
 ```
 
-### Add the nginx controller repo
-
-```sh
-helm repo add <TODO>
-```
-
 ### Install the nginx controller
 
 ```sh
-helm install <TODO>
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
 ```
 
 ## Deploy the application
