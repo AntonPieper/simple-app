@@ -2,9 +2,6 @@ apiVersion: "acid.zalan.do/v1"
 kind: postgresql
 metadata:
   namespace: yaml-yodelers
-    labels:
-    pod-security.kubernetes.io/enforce: baseline
-    pod-security.kubernetes.io/enforce-version: v1.24
   name: simple-app-db
 spec:
   teamId: "myteam"
