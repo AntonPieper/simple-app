@@ -7,7 +7,7 @@ spec:
   teamId: "myteam"
   volume:
     size: 1Gi
-  numberOfInstances: 2
+  numberOfInstances: {{ .Values.replicaCount }}
   users:
     simple_app_user:
       - superuser
@@ -25,3 +25,69 @@ spec:
     limits:
       cpu: 300m
       memory: 300Mi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-init-script
+  namespace: yaml-yodelers
+data:
+  setup-db.sql: |
+    -- Create the table only if it doesn't exist
+    DO $$
+    BEGIN
+        IF NOT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'clicks') THEN
+            CREATE TABLE public.clicks (id SERIAL PRIMARY KEY, count INT);
+        END IF;
+    END $$;
+
+    -- Insert data only if the table is empty
+    DO $$
+    BEGIN
+        IF (SELECT COUNT(*) FROM public.clicks) = 0 THEN
+            INSERT INTO public.clicks (count)
+            SELECT 0
+            FROM generate_series(1, 10);
+        END IF;
+    END $$;
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-init-job
+  annotations:
+    "helm.sh/hook": post-install
+spec:
+  template:
+    spec:
+      containers:
+        - name: init-db
+          image: postgres:latest
+          command: ["psql"]
+          args: ["-a", "-f", "/scripts/setup-db.sql"]
+          env:
+            - name: PGHOST
+              value: simple-app-db
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: simple-app-user.simple-app-db.credentials.postgresql.acid.zalan.do
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: simple-app-user.simple-app-db.credentials.postgresql.acid.zalan.do
+                  key: password
+            - name: PGDATABASE
+              value: simple_app
+            - name: PGSSLMODE
+              value: "require"
+          volumeMounts:
+            - name: script-volume
+              mountPath: "/scripts"
+      restartPolicy: Never
+      volumes:
+        - name: script-volume
+          configMap:
+            name: db-init-script
