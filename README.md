@@ -144,5 +144,3 @@ graph TD
     - Forked and modified bundle.yaml is now included
 3. fixed the nginx deployment issue as described [here](https://stackoverflow.com/questions/61365202/nginx-ingress-service-ingress-nginx-controller-admission-not-found)
 
-
-## Architecture
