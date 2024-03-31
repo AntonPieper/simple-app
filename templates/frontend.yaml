@@ -8,7 +8,7 @@ metadata:
     pod-security.kubernetes.io/enforce-version: v1.24
   name: frontend-deployment
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: frontend
@@ -74,16 +74,18 @@ metadata:
   name: frontend-ingress
 spec:
   rules:
-    - host: example.com
+    {{- range .Values.hosts }}
+    - host: {{ .host | quote }}
       http:
         paths:
-          - path: /
+          - path: {{ .path }}
             pathType: Prefix
             backend:
               service:
                 name: frontend-service
                 port:
                   number: 80
+    {{- end }}
 ---
 apiVersion: policy/v1
 kind: PodDisruptionBudget

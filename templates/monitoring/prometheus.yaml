@@ -3,7 +3,7 @@ kind: Prometheus
 metadata:
   name: my-prometheus
   namespace: yaml-yodelers
-    labels:
+  labels:
     pod-security.kubernetes.io/enforce: baseline
     pod-security.kubernetes.io/enforce-version: v1.24
 spec:

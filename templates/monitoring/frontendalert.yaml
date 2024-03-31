@@ -14,4 +14,4 @@ spec:
         severity: warning
       annotations:
         summary: "High CPU usage on backend service"
-        description: "CPU usage on backend service {{ $labels.instance }} is above 90% for the last 5 minutes."
+        description: "CPU usage on backend service {{`{{ $labels.instance }}`}} is above 90% for the last 5 minutes."
